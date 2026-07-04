@@ -1,0 +1,16 @@
+# Fresh run outputs (the committed sample lives in examples/sample-run/)
+outputs/
+outputs_*/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Secrets
+.env

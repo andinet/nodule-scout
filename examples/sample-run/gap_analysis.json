@@ -1,0 +1,856 @@
+{
+  "analysis": {
+    "clinical_question": "What are the unmet needs and evidence gaps for an AI lung-nodule detection/triage tool on chest CT?",
+    "device_context": "Software-as-a-Medical-Device (SaMD) AI tool for detection and triage of pulmonary nodules on chest CT (including low-dose screening CT), Phase 01 ideation. The competitive predicate space is active across several FDA product codes (OEB, POK, JAK), and intended use may span detection, malignancy-risk estimation, and follow-up recommendation.",
+    "evidence_summary": [
+      {
+        "statement": "Externally tested AI models for malignancy classification of lung nodules on chest CT show usable pooled diagnostic accuracy, but a systematic review/meta-analysis highlights heterogeneity across models and external test sets, indicating generalizability is not yet settled.",
+        "cite_ids": [
+          "PMID:42233760"
+        ],
+        "confidence": "high"
+      },
+      {
+        "statement": "In a standardized benchmark (LUNA25), an AI system was compared against radiologists for estimating malignancy risk of indeterminate-size nodules (5-15 mm) on low-dose CT, showing AI can approach radiologist-level risk estimation for solid indeterminate nodules.",
+        "cite_ids": [
+          "PMID:42340186"
+        ],
+        "confidence": "medium"
+      },
+      {
+        "statement": "AI radiomics-based tools are being explored to support non-radiologist clinicians (advanced practice providers) in pulmonary nodule risk assessment and management, suggesting a triage/decision-support use case beyond the radiologist reader.",
+        "cite_ids": [
+          "PMID:42358939"
+        ],
+        "confidence": "medium"
+      },
+      {
+        "statement": "Emerging models attempt to predict pulmonary nodule growth (a malignancy predictor) from a single CT time point via fusion of radiomics and deep learning, pointing to follow-up-optimization use cases beyond simple detection.",
+        "cite_ids": [
+          "PMID:42306661"
+        ],
+        "confidence": "medium"
+      },
+      {
+        "statement": "Uptake of low-dose CT lung cancer screening among eligible high-risk individuals remains low, and multicentre cohorts are still characterizing risk factors, meaning the population an AI triage tool would serve is under-screened and heterogeneous.",
+        "cite_ids": [
+          "PMID:42302275",
+          "PMID:42082236"
+        ],
+        "confidence": "medium"
+      }
+    ],
+    "safety_signals": [
+      {
+        "statement": "Real-world MAUDE data relevant to lung-nodule AI is extremely sparse and noisy: 12 of 15 retrieved records are dental CAD/CAM restoration systems (acronym collision on 'CAD') and are not relevant to this device class; only two records are plausibly relevant.",
+        "cite_ids": [
+          "MAUDE:23888701",
+          "MAUDE:23829153",
+          "MAUDE:22327742",
+          "MAUDE:11648699",
+          "MAUDE:6645328"
+        ],
+        "confidence": "high"
+      },
+      {
+        "statement": "The most relevant MAUDE signal is a computer-assisted diagnostic software for lesions suspicious for cancer reporting software-reliability failure modes (image display error/artifact and the application freezing or failing to launch), which are integration/reliability failures rather than raw model-accuracy failures.",
+        "cite_ids": [
+          "MAUDE:11195257"
+        ],
+        "confidence": "medium"
+      },
+      {
+        "statement": "A CT imaging-chain safety event (radiation overexposure) appears in the retrieved records, a reminder that the acquisition context upstream of the AI carries its own patient-safety risks, though it is not attributable to nodule-detection software.",
+        "cite_ids": [
+          "MAUDE:7472705"
+        ],
+        "confidence": "low"
+      },
+      {
+        "statement": "Because the relevant post-market corpus is so small, MAUDE cannot currently be used to characterize the real-world failure-mode distribution for lung-nodule AI; absence of signal here reflects data sparseness and acronym collision, not demonstrated safety.",
+        "cite_ids": [
+          "MAUDE:11195257",
+          "MAUDE:7472705"
+        ],
+        "confidence": "high"
+      }
+    ],
+    "predicate_landscape": [
+      {
+        "statement": "The lung-nodule CAD detection predicate space (product code OEB) is active and recently cleared, including Fujifilm Synapse Lung Nodule AI, Coreline AVIEW Lung Nodule CAD, Infervision InferRead Lung CT.AI, and V5med Lung AI.",
+        "cite_ids": [
+          "K254075",
+          "K251203",
+          "K240554",
+          "K242919"
+        ],
+        "confidence": "high"
+      },
+      {
+        "statement": "Adjacent lung predicates cleared under different product codes indicate intended-use divergence: RevealAI-Lung under POK (malignancy characterization) versus Riverain ClearRead CT CAC, Brainomix 360 e-Lung, and Arineta SpotLight low-dose screening options under JAK.",
+        "cite_ids": [
+          "K251769",
+          "K242188",
+          "K242411",
+          "K250650",
+          "K241200"
+        ],
+        "confidence": "high"
+      },
+      {
+        "statement": "The most recent lung-nodule clearances are dated into 2025-2026, confirming a crowded, fast-moving competitive field that a new entrant must differentiate against on more than baseline detection accuracy.",
+        "cite_ids": [
+          "K254075",
+          "K251203",
+          "K251769"
+        ],
+        "confidence": "medium"
+      }
+    ],
+    "grounded_gaps": [
+      {
+        "statement": "Subsolid (ground-glass and part-solid) nodule performance is a recognized weakness of CAD/AI tools and carries high clinical stakes for indolent adenocarcinoma, yet the strongest current benchmark evidence centers on solid indeterminate nodules (5-15 mm), leaving a validated evidence gap for subsolid disease.",
+        "severity": "high",
+        "cite_ids": [
+          "NOTE:subsolid-nodules",
+          "PMID:42340186"
+        ]
+      },
+      {
+        "statement": "False-positive burden and automation bias differ sharply between low-prevalence screening and incidental contexts, driving downstream follow-up CTs and biopsies; context-specific false-positive tolerance is not resolved by pooled accuracy metrics that mix populations.",
+        "severity": "high",
+        "cite_ids": [
+          "NOTE:false-positive-tolerance",
+          "PMID:42233760"
+        ]
+      },
+      {
+        "statement": "Workflow and PACS/worklist integration is treated as make-or-break for adoption and turnaround-time value, and the closest real-world failure signal is a diagnostic-software reliability/display failure rather than a model-accuracy failure, yet integration and reliability are under-evidenced relative to accuracy.",
+        "severity": "high",
+        "cite_ids": [
+          "NOTE:workflow-integration",
+          "MAUDE:11195257"
+        ]
+      },
+      {
+        "statement": "Detection, malignancy-risk estimation, and follow-up recommendation are three distinct intended uses with escalating regulatory and liability weight, and products blur them; the predicate landscape's split across OEB, POK, and JAK codes confirms this boundary is consequential and easy to overstep.",
+        "severity": "high",
+        "cite_ids": [
+          "NOTE:intended-use-boundary",
+          "K251203",
+          "K251769",
+          "K242188"
+        ]
+      },
+      {
+        "statement": "External generalizability across sites, scanners, and populations remains heterogeneous in the meta-analytic evidence, while the target screening population is under-screened and demographically variable, leaving a gap in demonstrated real-world transportability.",
+        "severity": "medium",
+        "cite_ids": [
+          "PMID:42233760",
+          "PMID:42082236"
+        ]
+      }
+    ],
+    "recommended_next_steps": [
+      {
+        "statement": "Prioritize a dedicated subsolid/part-solid nodule validation plan (stratified sensitivity and false-positive reporting), since this is the highest-stakes, least-covered performance regime.",
+        "cite_ids": [
+          "NOTE:subsolid-nodules",
+          "PMID:42340186"
+        ],
+        "confidence": "high"
+      },
+      {
+        "statement": "Fix the intended-use boundary early (detection vs malignancy-risk vs follow-up recommendation) and choose the predicate/product-code lane deliberately to bound regulatory and liability exposure.",
+        "cite_ids": [
+          "NOTE:intended-use-boundary",
+          "K251769",
+          "K242188"
+        ],
+        "confidence": "high"
+      },
+      {
+        "statement": "Invest in PACS/worklist integration and software-reliability testing (display integrity, launch/uptime, worklist routing) as a first-class requirement, informed by the observed diagnostic-software failure modes.",
+        "cite_ids": [
+          "NOTE:workflow-integration",
+          "MAUDE:11195257"
+        ],
+        "confidence": "high"
+      },
+      {
+        "statement": "Define context-specific operating points and false-positive thresholds separately for screening (low prevalence) versus incidental use, and design human-factors evaluation of automation bias into the study.",
+        "cite_ids": [
+          "NOTE:false-positive-tolerance",
+          "PMID:42233760"
+        ],
+        "confidence": "medium"
+      },
+      {
+        "statement": "Plan multi-site external validation across scanners and under-screened populations to address demonstrated generalizability heterogeneity before pivotal claims.",
+        "cite_ids": [
+          "PMID:42233760",
+          "PMID:42082236"
+        ],
+        "confidence": "medium"
+      }
+    ],
+    "open_questions": [
+      "MAUDE for this device class is too sparse and acronym-collided to characterize the true real-world failure-mode distribution for lung-nodule AI; a targeted post-market surveillance strategy (by product code rather than 'CAD' keyword) is needed to close this blind spot.",
+      "Reimbursement and economic-value evidence (does reduced time-to-report or triage translate to payer/health-system value?) was not established by the retrieved sources.",
+      "How is medico-legal liability allocated when the tool issues a follow-up recommendation versus flags detection only?",
+      "What is the subgroup/health-equity performance (by sex, race/ethnicity, comorbidity, scanner vendor) \u2014 no retrieved source quantified fairness or subgroup drift?",
+      "What is the appropriate human-AI interaction model (concurrent read, second read, autonomous triage) and its measured effect on reader sensitivity and workload?"
+    ]
+  },
+  "evidence_index": {
+    "PMID:42358939": {
+      "cite_id": "PMID:42358939",
+      "kind": "pubmed",
+      "title": "Theoretical Clinical Utility of Advanced Practice Provider Use of an Artificial Intelligence Radiomics-based Tool for Pulmonary Nodule Evaluation and Management",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42358939/",
+      "payload": {
+        "journal": "CHEST pulmonary",
+        "year": "2026",
+        "abstract_snippet": "As integral members of pulmonary nodule (PN) programs, advanced practice providers (APPs) routinely evaluate PN cancer risk and make management recommendations. It is unknown whether an artificial intelligence (AI) tool impacts APP PN assessment and decision-making. What is the theoretical effect of APP use of a commercially available AI radiomics-based computer-aided diagnosis tool on PN diagnostic accuracy and management decision-making? In this retrospective multi-reader multi-case study performed from May 2024 to June 2024, 6 APP \"readers\" (4 in pulmonology, 2 in thoracic surgery) independ"
+      }
+    },
+    "PMID:42340186": {
+      "cite_id": "PMID:42340186",
+      "kind": "pubmed",
+      "title": "Benchmarking of AI and Radiologists for Indeterminate Lung Nodule Malignancy Risk Estimation on Screening CT: The LUNA25 Challenge",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42340186/",
+      "payload": {
+        "journal": "Radiology. Artificial intelligence",
+        "year": "2026",
+        "abstract_snippet": "Purpose To compare the performance of an artificial intelligence (AI) system with that of radiologists for estimating malignancy risk of indeterminate-size nodules (5-15 mm) on low-dose CT (LDCT) within a standardized and transparent evaluation framework. Materials and Methods Teams participating in the AI study had access to a public dataset of 555 malignant and 5608 benign nodules on 4069 baseline LDCT scans from the National Lung Screening Trial (NLST) to develop AI systems. External testing was performed on 156 malignant and 312 benign size-matched nodules, all of indeterminate size, from "
+      }
+    },
+    "PMID:42332463": {
+      "cite_id": "PMID:42332463",
+      "kind": "pubmed",
+      "title": "Deep learning radiomics clinical model of PET/CT for predicting lymphovasvular invasion and prognosis in patients with non-small cell lung cancer",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42332463/",
+      "payload": {
+        "journal": "Medicine",
+        "year": "2026",
+        "abstract_snippet": "This study aimed to develop and validate an integrated model combining radiomics, deep learning (DL) features from pretreatment 2-18fluoro-2-deoxy-D-glucose positron emission tomography/computed tomography, and clinical variables to predict lymphovascular invasion (LVI) and progression-free survival (PFS) in patients with non-small cell lung cancer (NSCLC). Data from 289 patients with clinically T1-3N0M0 NSCLC from Ningbo Mingzhou Hospital were retrospectively analyzed. Patients were randomly divided into a training cohort (n = 231) and an internal validation cohort (n = 58) in an 8:2 ratio. A"
+      }
+    },
+    "PMID:42319625": {
+      "cite_id": "PMID:42319625",
+      "kind": "pubmed",
+      "title": "Preoperative and intraoperative localization of small pulmonary nodules for thoracoscopic surgery: a contemporary narrative review",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42319625/",
+      "payload": {
+        "journal": "Journal of robotic surgery",
+        "year": "2026",
+        "abstract_snippet": "For thoracoscopic resection to be successful, accurate preoperative and intraoperative localization is necessary due to the growing detection of small, non-palpable lung nodules using low-dose CT scanning. Accurate localization is required rather than optional in robot-assisted thoracic surgery (RATS) since the total lack of tactile feedback makes it extremely difficult to identify deep, tiny, and subsolid nodules. With a focus on RATS-specific criteria, this study offers a modern, clinically focused framework for technique selection. This is a narrative review of the current literature. A str"
+      }
+    },
+    "PMID:42306661": {
+      "cite_id": "PMID:42306661",
+      "kind": "pubmed",
+      "title": "Predicting pulmonary nodule growth from a single time point: a fusion model of radiomics and deep learning to optimize follow-up strategies",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42306661/",
+      "payload": {
+        "journal": "Journal of thoracic disease",
+        "year": "2026",
+        "abstract_snippet": "The growth of pulmonary nodules is an important predictor of malignancy. Their varied size makes them difficult to detect and monitor, and improper management may result in a high risk of malignancy. This study explores a non-invasive method for analyzing growth progression in pulmonary nodules between baseline and follow-up computed tomography (CT) scans. The approach integrates radiomics and deep features extracted from baseline imaging data. These features led to the development of a nodule growth prediction model to accurately differentiate growth status, thus providing an objective, quant"
+      }
+    },
+    "PMID:42302275": {
+      "cite_id": "PMID:42302275",
+      "kind": "pubmed",
+      "title": "Online Intervention on Lung Cancer Screening Among High-Risk Individuals: Pilot Intervention Study",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42302275/",
+      "payload": {
+        "journal": "JMIR cancer",
+        "year": "2026",
+        "abstract_snippet": "Lung cancer remains the leading cause of cancer deaths in the United States; however, uptake of lung cancer screening (LCS) with low-dose computed tomography (LDCT) among eligible individuals remains low. Evidence suggests that limited knowledge, stigma, and false health beliefs contribute to the underuse of LDCT screening. This pilot study aimed to examine an online educational intervention designed to improve knowledge, attitudes, health beliefs, behavioral intentions, perceived importance, and confidence related to LCS among high-risk individuals. A single-group preintervention and postinte"
+      }
+    },
+    "PMID:42233760": {
+      "cite_id": "PMID:42233760",
+      "kind": "pubmed",
+      "title": "Externally Tested AI Models for Malignancy Classification of Lung Nodules at CT: A Systematic Review and Meta-Analysis",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42233760/",
+      "payload": {
+        "journal": "Radiology. Artificial intelligence",
+        "year": "2026",
+        "abstract_snippet": "Purpose To evaluate the pooled diagnostic accuracy of externally tested artificial intelligence (AI) models for malignancy classification of lung nodules at chest CT. Materials and Methods A systematic search of PubMed, Embase, Web of Science, Cumulative Index to Nursing and Allied Health Literature, and the Cochrane Library was performed in March 2023 and updated on January 12, 2025, to identify studies evaluating AI models for malignancy classification of lung nodules at chest CT using pathology and/or at least 2-year follow-up as reference standards. Risk of bias was assessed using the Qual"
+      }
+    },
+    "PMID:42190286": {
+      "cite_id": "PMID:42190286",
+      "kind": "pubmed",
+      "title": "A deep learning lung cancer segmentation pipeline to facilitate CT-based radiomics",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42190286/",
+      "payload": {
+        "journal": "Clinical radiology",
+        "year": "2026",
+        "abstract_snippet": "CT-based radio-biomarkers could provide non-invasive insights into tumour biology to risk-stratify patients. One of the limitations is the laborious manual segmentation of regions-of-interest (ROI). We present a deep learning auto-segmentation pipeline for radiomic analysis. 153 patients with resected stage 2A-3B non-small cell lung cancer (NSCLC) had tumours segmented using nnU-Net with review by two clinicians. The nnU-Net was pretrained with anatomical priors in non-cancerous lungs and finetuned on NSCLCs. Three ROIs were segmented: intra-tumoural, peri-tumoural, and whole lung. A total of "
+      }
+    },
+    "PMID:42185923": {
+      "cite_id": "PMID:42185923",
+      "kind": "pubmed",
+      "title": "A visual analysis of the research dynamics of biomarkers for lung cancer screening",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42185923/",
+      "payload": {
+        "journal": "Clinical epigenetics",
+        "year": "2026",
+        "abstract_snippet": "Non-invasive biomarkers offer potential to improve risk stratification and early diagnosis of lung cancer, complementing low-dose computed tomography (LDCT) screening. This study employed bibliometric analysis to identify global research trends, collaborative networks, and future directions in lung cancer biomarker research. Publications on lung cancer biomarkers for screening were retrieved from the Web of Science Core Collection (WoSCC). Data processing and visualisation were performed using Citespace, VOSviewer, KH Coder, Latent Dirichlet Allocation (LDA) topic modelling, and the online bib"
+      }
+    },
+    "PMID:42128891": {
+      "cite_id": "PMID:42128891",
+      "kind": "pubmed",
+      "title": "An intelligent lung nodule classification model using 3D Trans-DenseUnet++-based lung nodule segmentation",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42128891/",
+      "payload": {
+        "journal": "Scientific reports",
+        "year": "2026",
+        "abstract_snippet": "Lung nodule detection is necessary for lung cancer treatment, which is crucial for treating the patients. However, the current dataset comprises only a limited amount of lung Computed Tomography (CT) images, which shows potential imbalance between non-nodule and nodule samples. This disparity reduces the performance of neural networks and makes training more difficult. Early detection of lung tumor is crucial for identifying patients with a high chance of effective treatment, and this relies heavily on the precise recognition of malignant lung nodules in CT scans. Recently, the Deep Neural Net"
+      }
+    },
+    "PMID:42100835": {
+      "cite_id": "PMID:42100835",
+      "kind": "pubmed",
+      "title": "Individualized Prediction of Radiation Pneumonitis Using RP-GAN: Leveraging Global Lung Features and Explainable Artificial Intelligence",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42100835/",
+      "payload": {
+        "journal": "Technology in cancer research & treatment",
+        "year": "2026",
+        "abstract_snippet": "IntroductionThis study aims to develop an individualized risk prediction model for radiation pneumonitis (RP) based on unsupervised image feature learning. A deep convolutional generative adversarial network (DCGAN) was utilized to automatically extract features from computed tomography (CT) images.MethodsA retrospective analysis was conducted on 180 lung cancer patients treated with volumetric modulated arc therapy (VMAT) at Kaohsiung Veterans General Hospital between 2015 and 2022. To mitigate clinical sample size limitations, rotation-based augmentation was employed to expand the training d"
+      }
+    },
+    "PMID:42082236": {
+      "cite_id": "PMID:42082236",
+      "kind": "pubmed",
+      "title": "Understanding LUng Cancer risk factors and their Impact Assessment (LUCIA): protocol for multicentre observational cohort study",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42082236/",
+      "payload": {
+        "journal": "BMJ open",
+        "year": "2026",
+        "abstract_snippet": "Lung cancer (LC) is the leading cause of cancer-related mortality worldwide, primarily due to diagnosis at advanced stages. Although low-dose computed tomography (LDCT) screening reduces lung cancer mortality in high-risk populations, current screening programmes are largely restricted to individuals defined by age and smoking history. This approach excludes never-smokers and individuals with non-smoking-related risk factors, limiting the equity, efficiency and scalability of lung cancer screening. The LUng Cancer risk factors and their Impact Assessment (LUCIA) project aims to overcome these "
+      }
+    },
+    "MAUDE:23888701": {
+      "cite_id": "MAUDE:23888701",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:23888701",
+      "payload": {
+        "event_type": "Malfunction",
+        "date_received": "20251224",
+        "manufacturer": "ALIGN TECHNOLOGY, LTD.",
+        "brand_name": "ITERO ELEMENT 5D PLUS",
+        "product_problems": [
+          "Insufficient Device Problem Information",
+          "Insufficient Device Problem Information"
+        ],
+        "narrative_snippet": "THE CLINIC REPORTED THAT A FIRE OCCURRED WITHIN THE FACILITY, RESULTING IN SIGNIFICANT PROPERTY DAMAGE AND LOSS OF EQUIPMENT, INCLUDING AN ITERO SCANNER. NO PATIENT OR STAFF INJURIES WERE REPORTED IN ASSOCIATION WITH THIS EVENT. A FIRE INVESTIGATION WAS CONDUCTED BY THE INSURANCE COMPANY EXPERT TO DETERMINE THE ORIGIN AND CAUSE OF THE INCIDENT. AS PART OF THE EVALUATION, ALIGN TECHNOLOGY PROVIDED ",
+        "match_total": 54
+      }
+    },
+    "MAUDE:23829153": {
+      "cite_id": "MAUDE:23829153",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:23829153",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20251217",
+        "manufacturer": "ALIGN TECHNOLOGY, LTD.",
+        "brand_name": "ITERO ELEMENT 2",
+        "product_problems": [
+          "Electromagnetic Compatibility Problem",
+          "Electromagnetic Compatibility Problem"
+        ],
+        "narrative_snippet": "AS PART OF FOLLOW UP ACTIVITIES, ALIGN CONTACTED THE CLINIC SEVERAL TIMES WITH NO RESPONSE. ON (B)(6) 2026 THE CLINIC CONFIRMED THAT THE PATIENT HAD RETURNED FOR A SUBSEQUENT VISIT AND WAS DOING WELL. THE CLINIC FURTHER REPORTED THAT, AT THE EMERGENCY ROOM IT WAS CONFIRMED THAT THE IMPLANTED DEVICE HAD NOT MOVED, AND NO SPECIAL MEDICAL PROCEDURES WERE REQUIRED. NO ADDITIONAL DETAILS REGARDING THE ",
+        "match_total": 54
+      }
+    },
+    "MAUDE:22327742": {
+      "cite_id": "MAUDE:22327742",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:22327742",
+      "payload": {
+        "event_type": "Malfunction",
+        "date_received": "20250625",
+        "manufacturer": "ALIGN TECHNOLOGY, LTD.",
+        "brand_name": "ITERO LUMINA SCANNING UNIT",
+        "product_problems": [
+          "Insufficient Device Problem Information",
+          "Insufficient Device Problem Information"
+        ],
+        "narrative_snippet": "THE CURRENT USER MANUAL CONTAINS THE FOLLOWING: \"SCANNER PRECAUTIONS - AVOID TWISTING, KNOTTING, PULLING, AND STEPPING ON THE WAND CABLE AND THE POWER CABLE\", \"WARNING - DO NOT CONNECT THE SCANNER TO A MAIN SUPPLY WITHOUT PROTECTIVE GROUNDING, IN ORDER TO AVOID THE RISK OF ELECTRICAL SHOCK.\". THIS EVENT IS BEING FILED AS AN MDR AS THE USER EXPERIENCED A MINOR INJURY ON HAND, REQUIRING MEDICAL CARE",
+        "match_total": 54
+      }
+    },
+    "MAUDE:19495255": {
+      "cite_id": "MAUDE:19495255",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:19495255",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20240609",
+        "manufacturer": "ALIGN TECHNOLOGY, LTD.",
+        "brand_name": "ITERO ELEMENT 2",
+        "product_problems": [
+          "Insufficient Device Problem Information",
+          "Insufficient Device Problem Information"
+        ],
+        "narrative_snippet": "NO ADDITIONAL INFORMATION ABOUT THE USER'S CONDITION WAS OBTAINED DESPITE ATTEMPTS TO GATHER THIS INFORMATION, NOR WAS THE DEVICE RETURNED FOR FURTHER INVESTIGATION. THE REPORTED EVENT WAS CONFIRMED BY REVIEW OF AVAILABLE PHOTOGRAPHS AND INFORMATION SUPPLIED BY THE USER. ALIGN'S CLINICAL ASSESSMENT OF THE AVAILABLE RECORDS INDICATE THAT THE USER'S HAND INJURY WAS A MINOR, SUPERFICIAL INJURY THAT D",
+        "match_total": 54
+      }
+    },
+    "MAUDE:19294205": {
+      "cite_id": "MAUDE:19294205",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:19294205",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20240510",
+        "manufacturer": "ALIGN TECHNOLOGY, LTD.",
+        "brand_name": "ITERO ELEMENT FLEX",
+        "product_problems": [
+          "Insufficient Device Problem Information",
+          "Insufficient Device Problem Information"
+        ],
+        "narrative_snippet": "UPDATES WERE MADE AFTER REVIEWING THE QUALITY OF DEVICE IDENTIFICATION INFORMATION SUBMITTED PREVIOUSLY AGAINST DATA IN THE GUDID.",
+        "match_total": 54
+      }
+    },
+    "MAUDE:17760756": {
+      "cite_id": "MAUDE:17760756",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:17760756",
+      "payload": {
+        "event_type": "Malfunction",
+        "date_received": "20230915",
+        "manufacturer": "ALIGN TECHNOLOGY, LTD.",
+        "brand_name": "ITERO ELEMENT 2",
+        "product_problems": [
+          "Overheating of Device",
+          "Sparking",
+          "Overheating of Device",
+          "Sparking"
+        ],
+        "narrative_snippet": "A THOROUGH INVESTIGATION WAS PERFORMED TO ASSESS THIS EVENT. A CROSS FUNCTIONAL TEAM ANALYZED THE INVESTIGATIONAL FINDINGS AND DETERMINED THE SEVERITY OF THE REPORTED DEFICIENCY, EVALUATED THE HAZARD, AND CONSIDERED THE POTENTIAL RISK TO PATIENTS AND USERS. IT WAS CONCLUDED THAT NO FURTHER ACTIONS ARE REQUIRED TO PREVENT THE RE-OCCURRENCE OF THE HARM. THE COMPANY DID DECIDE TO INCREASE THE ROBUSTN",
+        "match_total": 54
+      }
+    },
+    "MAUDE:17381169": {
+      "cite_id": "MAUDE:17381169",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:17381169",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20230721",
+        "manufacturer": "UNKNOWN",
+        "brand_name": "INTRAORAL SCANNER",
+        "product_problems": [],
+        "narrative_snippet": "I AM WRITING TO REPORT A THYROID ISSUES EVENT THAT I BELIEVE WAS CAUSED BY DENTAL IMAGING FOR IMPLANTS. ALSO, I AM REACHING OUT TO YOU SEEKING ANY INFORMATION AND ASSISTANCE YOU CAN PROVIDE THAT COULD HELP ME WITH TREATMENT TO RESOLVE THE ISSUES QUICKLY. ON MONDAY OF LAST WEEK, I HAD DENTAL IMAGING FOR IMPLANTS THAT INCLUDED CBCT, PANORAMIC X-RAYS, CEPHALOMETRIC X-RAYS, INTRAORAL X-RAYS, AND INTRA",
+        "match_total": 54
+      }
+    },
+    "MAUDE:11648699": {
+      "cite_id": "MAUDE:11648699",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:11648699",
+      "payload": {
+        "event_type": "Malfunction",
+        "date_received": "20210412",
+        "manufacturer": "CARESTREAM DENTAL LLC",
+        "brand_name": "CS 3600 SINGLE USE NORMAL TIPS",
+        "product_problems": [
+          "Material Separation",
+          "Defective Component",
+          "Material Separation",
+          "Defective Component"
+        ],
+        "narrative_snippet": "THIS IS A CORRECTED REPORT.  ORIGINAL MDR NUMBER USED CFN FOR CARESTREAM HEALTH.  THE ORIGINAL MDR NUMBER WAS: 131703-2021-00001.  THE CORRECTED MDR NUMBER USES THE CORRECT FEI FOR CARESTREAM DENTAL LLC: 3002522649-2021-00001. WHEN USING THE CS 3600 ACCESSORY: CS 3600 SINGLE USE NORMAL TIP, THE MIRROR CAN BE DETACHED FROM THE UNIT.  WHEN THIS EVENT OCCURRED, THE MIRROR FELL FROM THE UNIT INTO THE ",
+        "match_total": 54
+      }
+    },
+    "MAUDE:11366583": {
+      "cite_id": "MAUDE:11366583",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:11366583",
+      "payload": {
+        "event_type": "Malfunction",
+        "date_received": "20210223",
+        "manufacturer": "CARESTREAM DENTAL LLC",
+        "brand_name": "CS 3600 SINGLE USE NORMAL TIPS",
+        "product_problems": [
+          "Material Separation",
+          "Defective Component",
+          "Material Separation",
+          "Defective Component"
+        ],
+        "narrative_snippet": "WHEN USING THE CS 3600 ACCESSORY: CS 3600 SINGLE USE NORMAL TIP, THE MIRROR CAN BE DETACHED FROM THE UNIT. WHEN THIS EVENT OCCURRED, THE MIRROR FELL FROM THE UNIT INTO THE PATIENT'S MOUTH. THE PATIENT WAS ABLE TO REMOVE THE MIRROR AND THE PATIENT DID NOT SUSTAIN ANY INJURIES. THE SIZE OF THE MIRROR (22MMX13MMX1.5MM) MAKES IT POSSIBLE FOR THE MIRROR TO BE SWALLOWED OR ASPIRATED. IF THE MIRROR IS SW",
+        "match_total": 54
+      }
+    },
+    "MAUDE:11195257": {
+      "cite_id": "MAUDE:11195257",
+      "kind": "maude",
+      "title": "Computer-Assisted Diagnostic Software For Lesions Suspicious For Cancer",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:11195257",
+      "payload": {
+        "event_type": "Malfunction",
+        "date_received": "20210115",
+        "manufacturer": "",
+        "brand_name": "QUANTX",
+        "product_problems": [
+          "Image Display Error/Artifact",
+          "Application Program Freezes or Fails to Launch",
+          "Image Display Error/Artifact",
+          "Application Program Freezes or Fails to Launch"
+        ],
+        "narrative_snippet": "QUANTX SOFTWARE MAY ENTER INTO AN ERROR STATE IN WHICH MEDICAL IMAGES DISPLAYED TO THE USER ARE FROZEN IN PLACE. QUANTX SOFTWARE VERSION (B)(4) ENTER INTO AN ERROR STATE IN WHICH ONE VIEWPORT IS FROZEN IN PLACE. WHEN THIS ERROR OCCURS, QUANTX STOPS RESPONDING TO USER INPUTS TO MODIFY THE DISPLAY OF THE FROZEN IMAGE. THIS ERROR STATE IS REACHED THROUGH A SPECIFIC SEQUENCE OF KEYSTROKES AND MOUSE AC",
+        "match_total": 54
+      }
+    },
+    "MAUDE:7472705": {
+      "cite_id": "MAUDE:7472705",
+      "kind": "maude",
+      "title": "System, X-Ray, Tomography, Computed",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:7472705",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20180427",
+        "manufacturer": "UNK",
+        "brand_name": "CT",
+        "product_problems": [
+          "Radiation Overexposure",
+          "Radiation Overexposure"
+        ],
+        "narrative_snippet": "ADD'L INFO RECEIVED FROM REPORTER ON 05/02/208 FOR REPORT # MW5076896. RE: MRI RISK: (RELATED POINTS ARTICLES FROM WWW.FDA.COM 2018). (ARTICLE 1) MEDICAL X-RAY IMAGING (UPDATED: 03/06/2017) RISKS POTENTIALLY CAUSE DAMAGE TO DNA. RISKS FROM EXPOSURE TO IONIZING RADIATION INCLUDE: A SMALL INCREASE IN THE POSSIBILITY THAT A PERSON EXPOSED TO X-RAYS WILL DEVELOP CANCER LATER IN LIFE. TISSUE EFFECTS SU",
+        "match_total": 54
+      }
+    },
+    "MAUDE:6645328": {
+      "cite_id": "MAUDE:6645328",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:6645328",
+      "payload": {
+        "event_type": "Malfunction",
+        "date_received": "20170615",
+        "manufacturer": "D4D TECHNOLOGIES, LLC",
+        "brand_name": "PLANSCAN",
+        "product_problems": [
+          "Fracture",
+          "Fracture"
+        ],
+        "narrative_snippet": "PER (B)(6), ITEM THAT CRACKED WHILE IN THE PATIENTS MOUTH. BLOOD WAS UNDER THE CRACK AND WHEN THEY GOT IT OUT IT SHATTERED AT THE TIP OF THE SCREEN AND PLASTIC. (B)(6) 2017 AT 10:55 A.M. (B)(6) LEFT MESSAGE WITH (B)(4) AT FRONT DESK FOR (B)(6) TO CALL BACK. AT 3:36 P.M. CALLED AGAIN AND SPOKE WITH (B)(4) AT THE OFFICE AND (B)(6) WAS WITH PATIENTS BUT WILL BE GIVEN MESSAGE TO CAL. THEN AT 4:58 P.M.",
+        "match_total": 54
+      }
+    },
+    "MAUDE:6517540": {
+      "cite_id": "MAUDE:6517540",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:6517540",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20170424",
+        "manufacturer": "3M ESPE DENTAL PRODUCTS",
+        "brand_name": "3M TRUE DEFINITION SCANNER",
+        "product_problems": [
+          "Appropriate Device Problem Term/Code Not Available",
+          "Appropriate Device Problem Term/Code Not Available"
+        ],
+        "narrative_snippet": "ELECTRICAL SAFETY TESTING ON THE 3M TRUE DEFINITION SCANNER, MOBILE EDITION WAS PERFORMED BY 3M ACCORDING TO ELECTRICAL SAFETY STANDARD IEC (B)(4). THE ANALYSIS FOUND THAT THE TRUE DEFINITION MOBILE UNIT IS OPERATING WITHIN SPECIFICATION. AN ELECTRICAL EVALUATION OF THE DENTAL OPERATORY WAS CONDUCTED AND ONE OF THE WALL OUTLETS IN THE OPERATORY WAS FOUND TO BE NOT PROPERLY GROUNDED, BUT DUE TO THE",
+        "match_total": 54
+      }
+    },
+    "MAUDE:6343225": {
+      "cite_id": "MAUDE:6343225",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:6343225",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20170220",
+        "manufacturer": "3M ESPE DENTAL PRODUCTS",
+        "brand_name": "3M TRUE DEFINITION SCANNER",
+        "product_problems": [
+          "Use of Device Problem",
+          "Use of Device Problem"
+        ],
+        "narrative_snippet": "A SERVICE TECHNICIAN COMPLETED AN ELECTRICAL ASSESSMENT AT THE REPORTING OFFICE ON 01/19/17. THE ANALYSIS FOUND THAT THE SYSTEM WAS IN OPERATION WITHOUT THE FACTORY SUPPLIED ISOLATION TRANSFORMER AND POWER SUPPLY. IN ADDITION, THE DEVICE WAS USED WITH A 2-PIN POWER CABLE INSTEAD OF A IEC CERTIFIED APPROVED POWER SUPPLY CORD. IT WAS ALSO NOTED THAT THE SUBJECT IS VERY SENSITIVE AND MAY HAVE BROKEN ",
+        "match_total": 54
+      }
+    },
+    "MAUDE:6343231": {
+      "cite_id": "MAUDE:6343231",
+      "kind": "maude",
+      "title": "System, Optical Impression, Computer Assisted Design And Manufacturing (Cad/Cam) Of Dental Restorations",
+      "url": "https://api.fda.gov/device/event.json?search=mdr_report_key:6343231",
+      "payload": {
+        "event_type": "Injury",
+        "date_received": "20170220",
+        "manufacturer": "3M ESPE DENTAL PRODUCTS",
+        "brand_name": "3M TRUE DEFINITION SCANNER",
+        "product_problems": [
+          "Appropriate Device Problem Term/Code Not Available",
+          "Appropriate Device Problem Term/Code Not Available"
+        ],
+        "narrative_snippet": "A SERVICE TECHNICIAN COMPLETED AN ELECTRICAL ASSESSMENT AT THE REPORTING OFFICE ON 01/19/2017. IT WAS NOTED THAT THE ACTING CLINICIAN SCANNED THE SUBJECT USING THE 3M TRUE DEFINITION SCANNER, MOBILE EDITION WHILE ON BATTERY POWER. IT WAS ALSO NOTED THAT THE SUBJECT IS VERY SENSITIVE AND MAY HAVE BROKEN FRONT TEETH AND MINOR ENAMEL THICKNESS PROBLEMS. ELECTRICAL SAFETY TESTING ON THE 3M TRUE DEFINI",
+        "match_total": 54
+      }
+    },
+    "K254075": {
+      "cite_id": "K254075",
+      "kind": "fda510k",
+      "title": "Synapse Lung Nodule AI",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K254075",
+      "payload": {
+        "applicant": "Fujifilm Corporation",
+        "decision_date": "2026-05-27",
+        "product_code": "OEB",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K260320": {
+      "cite_id": "K260320",
+      "kind": "fda510k",
+      "title": "Lunit INSIGHT MMG (v1.1.10)",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260320",
+      "payload": {
+        "applicant": "Lunit, Inc.",
+        "decision_date": "2026-04-23",
+        "product_code": "QDQ",
+        "clearance_type": "Special",
+        "match_total": 86
+      }
+    },
+    "K253796": {
+      "cite_id": "K253796",
+      "kind": "fda510k",
+      "title": "Lunit INSIGHT DBT (V1.2)",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K253796",
+      "payload": {
+        "applicant": "Lunit, Inc.",
+        "decision_date": "2026-03-26",
+        "product_code": "QDQ",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K251769": {
+      "cite_id": "K251769",
+      "kind": "fda510k",
+      "title": "RevealAI-Lung",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K251769",
+      "payload": {
+        "applicant": "Precision Medical Ventures, Inc. Dba Revealdx",
+        "decision_date": "2026-01-30",
+        "product_code": "POK",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K251203": {
+      "cite_id": "K251203",
+      "kind": "fda510k",
+      "title": "AVIEW Lung Nodule CAD",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K251203",
+      "payload": {
+        "applicant": "Coreline Soft Co., Ltd.",
+        "decision_date": "2025-12-03",
+        "product_code": "OEB",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K240554": {
+      "cite_id": "K240554",
+      "kind": "fda510k",
+      "title": "InferRead Lung CT.AI",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K240554",
+      "payload": {
+        "applicant": "Infervision Medical Technology Co., Ltd.",
+        "decision_date": "2025-05-16",
+        "product_code": "OEB",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K243239": {
+      "cite_id": "K243239",
+      "kind": "fda510k",
+      "title": "Lung AI (LAI001)",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K243239",
+      "payload": {
+        "applicant": "Exo, Inc.",
+        "decision_date": "2025-04-24",
+        "product_code": "MYN",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K250650": {
+      "cite_id": "K250650",
+      "kind": "fda510k",
+      "title": "SpotLight / SpotLight Duo with Low Dose Lung Cancer Screening Option",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K250650",
+      "payload": {
+        "applicant": "Arineta , Ltd.",
+        "decision_date": "2025-04-15",
+        "product_code": "JAK",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K242919": {
+      "cite_id": "K242919",
+      "kind": "fda510k",
+      "title": "V5med Lung AI",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K242919",
+      "payload": {
+        "applicant": "V5med, Inc.",
+        "decision_date": "2025-03-27",
+        "product_code": "OEB",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K242411": {
+      "cite_id": "K242411",
+      "kind": "fda510k",
+      "title": "Brainomix 360 e-Lung",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K242411",
+      "payload": {
+        "applicant": "Brainomix Limited",
+        "decision_date": "2025-02-19",
+        "product_code": "JAK",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K241200": {
+      "cite_id": "K241200",
+      "kind": "fda510k",
+      "title": "SpotLight/SpotLight Duo with Low Dose Lung Cancer Screening Option",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K241200",
+      "payload": {
+        "applicant": "Arineta , Ltd.",
+        "decision_date": "2025-01-13",
+        "product_code": "JAK",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K242188": {
+      "cite_id": "K242188",
+      "kind": "fda510k",
+      "title": "ClearRead CT CAC",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K242188",
+      "payload": {
+        "applicant": "Riverain Technologies, Inc.",
+        "decision_date": "2024-12-03",
+        "product_code": "JAK",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K243316": {
+      "cite_id": "K243316",
+      "kind": "fda510k",
+      "title": "XENOVIEW 3.0T Chest Coil",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K243316",
+      "payload": {
+        "applicant": "Polarean, Inc.",
+        "decision_date": "2024-11-19",
+        "product_code": "MOS",
+        "clearance_type": "Special",
+        "match_total": 86
+      }
+    },
+    "K241439": {
+      "cite_id": "K241439",
+      "kind": "fda510k",
+      "title": "VUNO Med-Chest X-ray Triage/VUNO Med-CXR Link Triage",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K241439",
+      "payload": {
+        "applicant": "Vuno, Inc.",
+        "decision_date": "2024-11-15",
+        "product_code": "QFM",
+        "clearance_type": "Traditional",
+        "match_total": 86
+      }
+    },
+    "K242652": {
+      "cite_id": "K242652",
+      "kind": "fda510k",
+      "title": "Lunit INSIGHT DBT v1.1",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K242652",
+      "payload": {
+        "applicant": "Lunit, Inc.",
+        "decision_date": "2024-10-04",
+        "product_code": "QDQ",
+        "clearance_type": "Special",
+        "match_total": 86
+      }
+    },
+    "NOTE:workflow-integration": {
+      "cite_id": "NOTE:workflow-integration",
+      "kind": "advisory_note",
+      "title": "PACS/worklist integration and turnaround-time claims",
+      "url": null,
+      "payload": {
+        "date": "2026-03-04",
+        "text": "SYNTHETIC SAMPLE \u2014 not real clinical guidance.\n\nBeyond raw accuracy, the board treats workflow integration as make-or-break for\nadoption. A triage device that promises reduced time-to-report only delivers\nvalue if it integrates with the reading worklist and PACS without adding clicks.\nThe board is skeptical of turnaround-time and \"worklist prioritisation\" claims\nthat were measured in a research setting rather than in a live reading room, and\nwants any unmet-needs analysis to separate *demonstrated in deployment* claims\nfrom *demonstrated in a retrospective dataset* claims. Prior-CT comparison\n(automatic registration of the current study against priors for growth tracking)\nwas called out as a high-value, frequently-absent capability."
+      }
+    },
+    "NOTE:intended-use-boundary": {
+      "cite_id": "NOTE:intended-use-boundary",
+      "kind": "advisory_note",
+      "title": "Intended-use boundary \u2014 detection vs malignancy-risk vs follow-up recommendation",
+      "url": null,
+      "payload": {
+        "date": "2026-03-18",
+        "text": "SYNTHETIC SAMPLE \u2014 not real clinical guidance.\n\nThe board stresses that \"detection\", \"malignancy-risk estimation\", and\n\"follow-up recommendation\" are three different intended uses with escalating\nregulatory and liability weight, and that products blur them in marketing. A\ndevice cleared for detection/marking that surfaces a risk score users interpret\nas a management recommendation is operating beyond its intended use. The gap\nanalysis should locate exactly where the target product and its predicates sit\non this spectrum, and flag any mismatch between what the predicate 510(k) was\ncleared for and the capability the product intends to ship. The board also wants\nexplicit treatment of the failure mode where the tool is silent on a malignant\nnodule (false negative) versus flags a benign one (false positive)."
+      }
+    },
+    "NOTE:subsolid-nodules": {
+      "cite_id": "NOTE:subsolid-nodules",
+      "kind": "advisory_note",
+      "title": "Subsolid and part-solid nodule performance",
+      "url": null,
+      "payload": {
+        "date": "2026-03-04",
+        "text": "SYNTHETIC SAMPLE \u2014 not real clinical guidance.\n\nAdvisory board members with thoracic subspecialty training repeatedly note that\nsubsolid (ground-glass and part-solid) nodules are where CAD/AI tools are\nweakest and where the clinical stakes for indolent adenocarcinoma are highest.\nDetection and, especially, growth characterisation of part-solid nodules is\nharder than for solid nodules, yet most vendor validation cohorts are\nsolid-nodule-heavy. The board wants any gap analysis to check whether the\nliterature and the predicate labeling report performance *stratified by nodule\ntype*, and to treat \"performance on subsolid nodules unreported\" as a\nfirst-order evidence gap rather than a footnote."
+      }
+    },
+    "NOTE:false-positive-tolerance": {
+      "cite_id": "NOTE:false-positive-tolerance",
+      "kind": "advisory_note",
+      "title": "False-positive burden and automation bias",
+      "url": null,
+      "payload": {
+        "date": "2026-02-11",
+        "text": "SYNTHETIC SAMPLE \u2014 not real clinical guidance.\n\nThe board distinguishes sharply between a screening context and an incidental\ncontext. In lung-cancer screening (low prevalence), a high false-positive rate\nper scan drives downstream CT follow-ups, biopsies, and patient anxiety, and the\nboard considers false-positive burden the single largest adoption risk for a\ndetection SaMD. In the incidental-finding context the tolerance is different.\nThe board also raised automation bias: if the tool is framed as a \"second\nreader\" vs a \"concurrent reader\" vs a \"triage\" device, the human-factors risk\nprofile changes, and the intended-use statement must be explicit about which.\nReader studies that measure the change in radiologist performance *with vs\nwithout* the aid are considered essential evidence and are frequently missing."
+      }
+    }
+  },
+  "attribution": {
+    "ok": true,
+    "n_claims": 22,
+    "n_citations": 50,
+    "violations": []
+  },
+  "approved": true
+}
