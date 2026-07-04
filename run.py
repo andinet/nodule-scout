@@ -20,6 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
+from phase01.env import auth_note, load_dotenv  # noqa: E402
 from phase01.guardrails import check_scope, validate_attribution  # noqa: E402
 from phase01.orchestrator import run_agentic, run_deterministic  # noqa: E402
 from phase01.render import write_artifact  # noqa: E402
@@ -38,6 +39,10 @@ def main() -> int:
     ap.add_argument("--out", default="outputs", help="Output directory.")
     args = ap.parse_args()
 
+    # Load optional .env (ANTHROPIC_API_KEY / NCBI_API_KEY / OPENFDA_API_KEY) so a
+    # key placed there reaches this process and the `claude` subprocess the SDK spawns.
+    load_dotenv()
+
     # Guardrail 1: scope constraint, before any API/model spend.
     scope = check_scope(args.question)
     print(f"[scope] {scope.reason}")
@@ -46,7 +51,9 @@ def main() -> int:
         return 2
 
     mode = "agentic (multi-subagent)" if args.agentic else "deterministic (code-orchestrated)"
-    print(f"[run] mode: {mode}\n[run] question: {args.question}\n")
+    print(f"[run] mode: {mode}")
+    print(f"[run] {auth_note()}")
+    print(f"[run] question: {args.question}\n")
 
     runner = run_agentic if args.agentic else run_deterministic
     ctx = asyncio.run(runner(args.question, interactive=False))

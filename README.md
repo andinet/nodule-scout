@@ -46,8 +46,8 @@ agentic AI in the Software-as-a-Medical-Device (SaMD) lifecycle —
   without explicit approval (`--approve`).
 
 Built on the [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python)
-(`claude-agent-sdk`), authenticated through the logged-in `claude` CLI (Claude
-Code) — no separate `ANTHROPIC_API_KEY` required.
+(`claude-agent-sdk`). Authenticate with an `ANTHROPIC_API_KEY` **or** a logged-in
+`claude` CLI session — see [Authentication](#authentication).
 
 See a real, committed run in **[`examples/sample-run/`](examples/sample-run/)**
 (46 source records, 22 claims, 50 citations, 0 guardrail violations).
@@ -56,7 +56,7 @@ See a real, committed run in **[`examples/sample-run/`](examples/sample-run/)**
 
 ```bash
 pip install -e .            # or: pip install claude-agent-sdk httpx pydantic rank-bm25 python-frontmatter
-cp .env.example .env        # optional — API keys only raise rate limits
+cp .env.example .env        # then set ANTHROPIC_API_KEY (or skip it and use a claude CLI login)
 
 # Deterministic, code-orchestrated run (reproducible; recommended):
 python run.py "What are the unmet needs for an AI lung-nodule triage tool on chest CT?" --approve
@@ -67,6 +67,20 @@ python run.py --agentic --approve
 
 Outputs land in `outputs/`: `gap_analysis.md`, `gap_analysis.json` (analysis +
 full evidence index + attribution report), and `trace.jsonl`.
+
+## Authentication
+
+Running the orchestrator (`run.py`) needs the **Claude Code CLI** installed (the
+Agent SDK drives it) plus **one** of these two ways to authenticate — pick either:
+
+- **API key** — set `ANTHROPIC_API_KEY` in `.env` (copied from `.env.example`).
+  `run.py` loads `.env` automatically. Best if you don't use Claude Code.
+- **CLI login** — run `claude` once to log in; leave `ANTHROPIC_API_KEY` unset.
+
+`run.py` prints which one it's using at startup. The **three data-source keys**
+(`NCBI_API_KEY`, `OPENFDA_API_KEY`) are **optional** — the FDA/NIH APIs are free
+and keyless; keys only raise rate limits. The **tests need no keys and no Claude
+login** (they hit the data APIs anonymously and test the guardrails offline).
 
 ## Two orchestration modes
 
